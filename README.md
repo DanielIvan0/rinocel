@@ -33,11 +33,9 @@ Now you are ready to find you or any other coordinate you want on the map. :D
 Backend:
 1. Node.js
 2. Express.js
-3. Handlebars.js
 4. Mapbox Geocoding
 
 Frontend:
 1. HTML5, CSS 3, JavaScript
 2. Mapbox GL JS
 3. Fetch API
-
