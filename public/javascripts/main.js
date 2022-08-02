@@ -1,3 +1,4 @@
+const form = document.querySelector('#address-form');
 const geolocateBtn = document.querySelector('#geolocate-btn');
 
 const pointLocation = position => {
@@ -11,31 +12,36 @@ const getLocation = options => new Promise((resolve, reject) => {
 	navigator.geolocation.getCurrentPosition(resolve, reject, options);
 });
 
-const postData = async (e) => {
+form.onsubmit = async e => {
 	e.preventDefault();
-	const body = new URLSearchParams();
+	
 	const formData = new FormData(form);
-	for (const pair of formData) {
-		body.append(...pair);
+	const body = JSON.stringify(Object.fromEntries(formData));
+
+	try {
+		
+	} catch (error) {
+		const response = fetch('/geolocate', {
+			method: 'POST',
+			body,
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+	
+		if (!response.ok) throw new Error('No se pudo procesar su solicitud.');
+	
+		const data = response.json();
 	}
-
-	fetch('/geolocate', {
-		method: 'POST',
-		body
-	})
-	.then(res => res.json())
-	.then(data => {
-		if (!data.ok) throw new Error(data.message);
-		return pointLocation(data);
-	})
-	.catch(e => {
-		alert('No se pudo procesar su solicitud.' + e.message + 'Por favor inténtelo más tarde.');
-		console.error(e);
-	});
-};
-
-const form = document.querySelector('#address-form');
-form.addEventListener('submit', postData, false);
+	// .then(data => {
+	// 	if (!data.ok) throw new Error(data.message);
+	// 	return pointLocation(data);
+	// })
+	// .catch(e => {
+	// 	alert('No se pudo procesar su solicitud.' + e.message + 'Por favor inténtelo más tarde.');
+	// 	console.error(e);
+	// });
+}
 
 if (navigator.geolocation) {
 	geolocateBtn.addEventListener('click', () => {

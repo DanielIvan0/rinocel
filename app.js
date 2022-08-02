@@ -3,12 +3,16 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = process.env.port || 3000;
-const bodyParser = require('body-parser');
 const path = require('path');
+const fs = require('fs');
+
+const log = error => {
+    if (process.env.NODE_ENV !== 'production') console.dir(error);
+    else fs.writeFile('./logs.txt', Object.toString(error));
+}
 
 // Middleware's setup
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes setup
@@ -19,7 +23,7 @@ app.use('/', indexRoutes);
 app.use((err, req, res, next) => {
     const { code = 500, message } = err;
     
-    console.error(err);
+    log(err)
     res.status(code).json({
         code,
         message,

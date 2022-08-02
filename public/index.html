@@ -6,30 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="/styles/main.css">
     <title>rinocel</title>
 </head>
 <body>
     <div id="container">
         <form id="address-form" method="POST" action="/geolocate">
-            <label for="number">Número</label>
-            <input value="735" type="number" name="number" id="number" /><br>
-            <label for="street">Calle</label>
-            <input value="Camelias" type="text" name="street" id="street" /><br>
-            <label for="zip">Código Postal</label>
-            <input value="22200" type="number" name="zip" id="zip" /><br>
-            <label for="city">Ciudad</label>
-            <input value="Tijuana" type="text" name="city" id="city" /><br>
-            <label for="state">Estado</label>
-            <input value="Baja California" type="text" name="state" id="state" /><br>
-            <label for="country">País</label>
-            <input value="México" type="text" name="country" id="country" /><br><br>
-            <input type="submit" value="Buscar" />
+            <div class="form-control">
+                <label for="number">Número</label>
+                <input value="735" type="number" name="number" id="number" /><br>
+            </div>
+            <div class="form-control">
+                <label for="street">Calle</label>
+                <input value="Camelias" type="text" name="street" id="street" /><br>
+            </div>
+            <div class="form-control">
+                <label for="zip">Código Postal</label>
+                <input value="22200" type="number" name="zip" id="zip" /><br>
+            </div>
+            <div class="form-control">
+                <label for="city">Ciudad</label>
+                <input value="Tijuana" type="text" name="city" id="city" /><br>
+            </div>
+            <div class="form-control">
+                <label for="state">Estado</label>
+                <input value="Baja California" type="text" name="state" id="state" /><br>
+            </div>
+            <div class="form-control">
+                <label for="country">País</label>
+                <input value="México" type="text" name="country" id="country" /><br><br>
+            </div>
+            <button type="submit">Buscar</button>
         </form>
-        <hr />
-        <p>Localizar a través del navegador:</p>
-        <button id="geolocate-btn">Localizar</button>
+        <div class="map-container">
+            <p>Localizar a través del navegador:</p>
+            <button id="geolocate-btn">Localizar</button>
+            <div id='map'></div>
+        </div>
     </div>
-    <div id='map' style='width: 400px; height: 300px;'></div>
     <script src="/javascripts/mapbox.js" type="text/javascript"></script>
     <script src="/javascripts/main.js" type="text/javascript"></script>
 </body>

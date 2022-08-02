@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon -L app.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +14,11 @@
     "express": "^4.17.3",
     "postman-request": "^2.88.1-postman.31",
     "request-promise-native": "^1.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "nodemonConfig": {
+    "ignore": [ "./public/*" ]
   }
 }

@@ -35,12 +35,19 @@ router.post('/geolocate', async (req, res, next) => {
             
             throw err;
         }
-        if (coordinates.error) return res.json({ coordinates, ok: false }).statusCode(500);
+        if (coordinates.error) {
+            
+            return res.status(500).json({ coordinates, ok: false });
+        }
         
         return res.json({ ...coordinates, ok: true });
     } catch (error) {
         next(error);
     }
 });
+
+router.use((err, req, res, next) => {
+    //
+})
 
 module.exports = router;
