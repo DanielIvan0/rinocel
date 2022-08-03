@@ -6,10 +6,14 @@ const port = process.env.port || 3000;
 const path = require('path');
 const fs = require('fs');
 
+global.utils = {};
+
 const log = error => {
     if (process.env.NODE_ENV !== 'production') console.dir(error);
     else fs.writeFile('./logs.txt', Object.toString(error));
 }
+
+global.utils.log = log;
 
 // Middleware's setup
 app.use(express.json());
