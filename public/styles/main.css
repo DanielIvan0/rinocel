@@ -3,6 +3,7 @@
     --border-button-color: rgba(119, 200, 0, .5);
     --form-background-color: rgba(0, 0, 0, .05);
     --map-width: 600px;
+	--overlay-color: rgba(0, 0, 0, .5);
 }
 
 *,
@@ -84,6 +85,46 @@ button:hover {
 
 h1 {
     position: absolute;
-    top: 5rem;
+    top: 1rem;
     margin: auto;
+}
+
+#overlay {
+	z-index: 10;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	transition: all 1s;
+	display: block;
+	background-color: var(--overlay-color);
+}
+
+#overlay.hidden {
+	display: none;
+	background-color: transparent;
+}
+
+#loader {
+	display: block;
+	border: 5px dashed #fff;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	animation: spin 3s linear infinite;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+#loader.hidden { display: none; }
+
+@keyframes spin {
+	0% {
+		transform: translate(-50%, -50%) rotate(0);
+	}
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg);
+	}
 }

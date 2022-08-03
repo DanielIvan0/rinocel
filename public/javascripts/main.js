@@ -1,5 +1,17 @@
 const form = document.querySelector('#address-form');
 const geolocateBtn = document.querySelector('#geolocate-btn');
+const overlay = document.querySelector('#overlay');
+const spinner = document.querySelector('#loader');
+
+const showSpinner = () => {
+	overlay.classList.remove('hidden');
+	spinner.classList.remove('hidden');
+}
+
+const hideSpinner = () => {
+	overlay.classList.add('hidden');
+	spinner.classList.add('hidden');
+}
 
 const pointLocation = position => {
 	const { latitude, longitude } = position;
@@ -14,6 +26,8 @@ const getLocation = options => new Promise((resolve, reject) => {
 
 form.onsubmit = async e => {
 	e.preventDefault();
+
+	showSpinner();
 	
 	const formData = new FormData(form);
 	const body = JSON.stringify(Object.fromEntries(formData));
@@ -34,20 +48,22 @@ form.onsubmit = async e => {
 		if (!data.ok) throw new Error(data.message);
 
 		pointLocation(data);
-	} catch (error) { alert(error.message); }
+	}
+	catch (error) { alert(error.message); }
+	finally { hideSpinner(); }
 }
 
 if (navigator.geolocation) {
 	geolocateBtn.onclick = async () => {
 		try {
+			showSpinner();
 			const position = await getLocation();
 			pointLocation(position.coords);
-		} catch (error) {
-			console.error(error);
-			alert('Error al intentar obtener la localización.');
 		}
+		catch (error) { alert('Error al intentar obtener la localización.'); }
+		finally { hideSpinner(); }
 	}
 } else {
-	geolocateBtn.onclick = () => alert('El navegador actual no soporta la geolocalización');
+	geolocateBtn.onclick = () => alert('El navegador actual no soporta la geolocalización.');
 	alert('El navegador actual no soporta la geolocalización.');
 }

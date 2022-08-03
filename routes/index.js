@@ -13,8 +13,8 @@ const geocode = async body => {
     try {
         const response = await request(url);
         const { features } = response.body;
-		
-		if (features.length === 0) {
+
+		if (!features || features.length === 0) {
 			const error = new Error();
 			error.statusCode = 400;
 			throw error;
