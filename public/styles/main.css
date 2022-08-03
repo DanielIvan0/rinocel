@@ -1,3 +1,10 @@
+:root {
+    --button-color: rgba(119, 200, 0, 0.16);
+    --border-button-color: rgba(119, 200, 0, .5);
+    --form-background-color: rgba(0, 0, 0, .05);
+    --map-width: 600px;
+}
+
 *,
 *::before,
 *::after {
@@ -8,15 +15,75 @@
 
 body {
     box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #map {
-    width: 400px;
-    height: 300px;
+    width: var(--map-width);
+    height: calc(3 * var(--map-width) / 4);
+    border-radius: .5rem;
 }
 
 #container {
     display: flex;
     flex-direction: row;
-    
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+#container > :not(h1) {
+    margin: 1rem;
+    padding: 1rem;
+    box-shadow: .2rem .2rem 1rem #888;
+    border-radius: .5rem;
+    transition: all .5s;
+}
+
+#container > :not(h1):hover{
+    box-shadow: .2rem .5rem 2rem #888;
+    transform: scale(1.005);
+}
+
+form {
+    background-color: var(--form-background-color);
+    border-radius: .5rem;
+}
+
+.form-control {
+    margin: 1rem;
+}
+
+.form-control > * {
+    display: block;
+}
+
+.form-control input {
+    width: 100%;
+    padding-top: .2rem;
+    padding-left: .2rem;
+    padding-right: .3rem;
+}
+
+button {
+    margin: 1rem;
+    padding: .5rem;
+    background-color: var(--button-color);
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: all .2s;
+}
+
+button:hover {
+    border: 2px solid var(--border-button-color);
+    cursor: pointer;
+    box-shadow: 2px 2px 8px #888;
+}
+
+h1 {
+    position: absolute;
+    top: 5rem;
+    margin: auto;
 }
