@@ -13,10 +13,19 @@ const geocode = async body => {
     try {
         const response = await request(url);
         const { features } = response.body;
-        const [ longitude, latitude ] = features[0].center;
+		
+		if (features.length === 0) {
+			const error = new Error();
+			error.statusCode = 400;
+			throw error;
+		}
+        
+		const [ longitude, latitude ] = features[0].center;
+
         return { latitude, longitude };
     } catch (error) {
-        throw new Error('No se pudo obtener las coordenadas.');
+		error.message = 'No se pudo procesar la solicitud.';
+		throw error;
     }
 }
 
@@ -29,17 +38,6 @@ router.post('/geolocate', async (req, res, next) => {
     try {
         const coordinates = await geocode(body);
         
-        if (!coordinates) {
-            const err = new Error('Error al conectar al servicio.');
-            err.code = 500;
-            
-            throw err;
-        }
-        if (coordinates.error) {
-            
-            return res.status(500).json({ coordinates, ok: false });
-        }
-        
         return res.json({ ...coordinates, ok: true });
     } catch (error) {
         next(error);
@@ -47,7 +45,14 @@ router.post('/geolocate', async (req, res, next) => {
 });
 
 router.use((err, req, res, next) => {
-    //
-})
+    const { statusCode = 500 } = err;
+
+    global.utils.log(err);
+    res.json({
+        ok: false,
+        statusCode,
+        message: err.message
+    });
+});
 
 module.exports = router;
