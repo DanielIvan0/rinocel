@@ -19,41 +19,35 @@ form.onsubmit = async e => {
 	const body = JSON.stringify(Object.fromEntries(formData));
 
 	try {
-		
-	} catch (error) {
-		const response = fetch('/geolocate', {
+		const response = await fetch('/geolocate', {
 			method: 'POST',
 			body,
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		});
-	
+
 		if (!response.ok) throw new Error('No se pudo procesar su solicitud.');
 	
-		const data = response.json();
-	}
-	// .then(data => {
-	// 	if (!data.ok) throw new Error(data.message);
-	// 	return pointLocation(data);
-	// })
-	// .catch(e => {
-	// 	alert('No se pudo procesar su solicitud.' + e.message + 'Por favor inténtelo más tarde.');
-	// 	console.error(e);
-	// });
+		const data = await response.json();
+
+		if (!data.ok) throw new Error(data.message);
+
+		pointLocation(data);
+	} catch (error) { alert(error.message); }
 }
 
 if (navigator.geolocation) {
-	geolocateBtn.addEventListener('click', () => {
-		getLocation()
-			.then(position => {
-				pointLocation(position.coords);
-			})
-			.catch(e => {
-				alert('Error al intentar obtener la localización.');
-				console.error(e);
-			});
-	});
+	geolocateBtn.onclick = async () => {
+		try {
+			const position = await getLocation();
+			pointLocation(position.coords);
+		} catch (error) {
+			console.error(error);
+			alert('Error al intentar obtener la localización.');
+		}
+	}
 } else {
-	geolocateBtn.disabled = true;
+	geolocateBtn.onclick = () => alert('El navegador actual no soporta la geolocalización');
+	alert('El navegador actual no soporta la geolocalización.');
 }
